@@ -269,7 +269,11 @@ namespace Griffin.Net.Channels
         /// </remarks>
         public Task CloseAsync()
         {
-            _socket.Shutdown(SocketShutdown.Send);
+            try
+            {
+                _socket.Shutdown(SocketShutdown.Send);
+            }
+            catch { }
             var t = _closeEvent.WaitAsync(5000);
 
             // release again so that we can take reuse it internally
